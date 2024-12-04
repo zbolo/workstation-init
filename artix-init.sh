@@ -100,3 +100,5 @@ cryptsetup close cryptlvm
 
 # Disable exectued commands print.
 set +x
+
+echo "Artix installed :)"
