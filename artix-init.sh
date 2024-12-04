@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Enable exectued commands print and enforce inited vars.
-set -xe
-
 # Load vars.
 . "$(pwd)/.env"
 [ -z "$LUKS_PASSWORD" ] && echo "No LUKS password specified." && exit
@@ -22,6 +19,9 @@ umount -R /mnt 2>/dev/null
 vgchange -a n 2>/dev/null
 cryptsetup close cryptlvm 2>/dev/null
 killall -s 9 cryptsetup 2>/dev/null
+
+# Enable exectued commands print and enforce inited vars.
+set -xe
 
 # Partition the disk.
 parted -s -a optimal $target_disk mklabel gpt
