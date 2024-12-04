@@ -9,7 +9,7 @@
 [ -z "$HOSTNAME" ] && echo "No hostname specified." && exit
 
 # Some vars.
-target_disk=/dev/nvme0n1p1
+target_disk=/dev/nvme0n1
 lv_name=gringott
 
 # Reset/init.
