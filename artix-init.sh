@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Load vars.
 . "$(pwd)/.env"
@@ -30,8 +30,8 @@ parted -s -a optimal $target_disk set 1 esp on
 parted -s -a optimal $target_disk mkpart "CRYPT" ext4 512MiB 100%
 
 # Set up LUKS encrypted container.
-echo "$LUKS_PASSWORD" | cryptsetup luksFormat ${target_disk}p2 -d -
-echo "$LUKS_PASSWORD" | cryptsetup open ${target_disk}p2 cryptlvm -d -
+echo -ne "$LUKS_PASSWORD" | cryptsetup luksFormat ${target_disk}p2 -d -
+echo -ne "$LUKS_PASSWORD" | cryptsetup open ${target_disk}p2 cryptlvm -d -
 
 # Create logical volumes.
 pvcreate /dev/mapper/cryptlvm
@@ -70,7 +70,7 @@ artix-chroot /mnt sh -c 'grub-install --target=x86_64-efi --efi-directory=/boot 
 
 # Set root password and sudoers.
 artix-chroot /mnt sh -c "echo root:${ROOT_PASSWD} | chpasswd"
-sed -s 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL \
+sed -s 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL \
 Defaults rootpw,pwfeedback/g' -i /mnt/etc/sudoers
 
 # Set hosts and link NetworkManager.
